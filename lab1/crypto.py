@@ -4,21 +4,28 @@ File: crypto.py
 ---------------
 Assignment 1: Cryptography
 Course: CS 41
-Name: <YOUR NAME>
+Name: Bence Racz
 SUNet: <SUNet ID>
 
 Replace this with a description of the program.
 """
+import math
+
 import utils
+
 
 # Caesar Cipher
 
 def encrypt_caesar(plaintext):
-    """Encrypt plaintext using a Caesar cipher.
+    shiftBy = 3
+    plaintextList = list(plaintext)
+    cipher = ""
+    for character in plaintextList:
+        if (64 < ord(character) < 91) or (96 < ord(character) < 123):
+            character = chr((ord(character) + shiftBy - 65) % 26 + 65)
+        cipher += character
+    return cipher
 
-    Add more implementation details here.
-    """
-    raise NotImplementedError  # Your implementation here
 
 
 def decrypt_caesar(ciphertext):
@@ -71,6 +78,7 @@ def generate_private_key(n=8):
     """
     raise NotImplementedError  # Your implementation here
 
+
 def create_public_key(private_key):
     """Create a public key corresponding to the given private key.
 
@@ -108,6 +116,7 @@ def encrypt_mh(message, public_key):
     """
     raise NotImplementedError  # Your implementation here
 
+
 def decrypt_mh(message, private_key):
     """Decrypt an incoming message using a private key
 
@@ -127,4 +136,3 @@ def decrypt_mh(message, private_key):
     @return bytearray or str of decrypted characters
     """
     raise NotImplementedError  # Your implementation here
-
