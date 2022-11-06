@@ -16,22 +16,24 @@ import utils
 shiftBy = 3
 
 
+def check_letter(character):
+    return (64 < ord(character) < 91) or (96 < ord(character) < 123)
+
+
 # Caesar Cipher
 def encrypt_caesar(plaintext):
-    plaintextList = list(plaintext)
     cipher = ""
-    for character in plaintextList:
-        if (64 < ord(character) < 91) or (96 < ord(character) < 123):
+    for character in plaintext:
+        if check_letter(character):
             character = chr((ord(character) + shiftBy - 65) % 26 + 65)
         cipher += character
     return cipher
 
 
 def decrypt_caesar(ciphertext):
-    ciphertextList = list(ciphertext)
     plainText = ""
-    for character in ciphertextList:
-        if (64 < ord(character) < 91) or (96 < ord(character) < 123):
+    for character in ciphertext:
+        if check_letter(character):
             character = chr((ord(character) - shiftBy - 65) % 26 + 65)
         plainText += character
     return plainText
@@ -40,11 +42,13 @@ def decrypt_caesar(ciphertext):
 # Vigenere Cipher
 
 def encrypt_vigenere(plaintext, keyword):
-    """Encrypt plaintext using a Vigenere cipher with a keyword.
-
-    Add more implementation details here.
-    """
-    raise NotImplementedError  # Your implementation here
+    cipher = ""
+    for i in range(len(plaintext)):
+        character = plaintext[i]
+        if check_letter(character):
+            character = chr((ord(character) + (ord(keyword[i]) - 65) - 65) % 26 + 65)
+        cipher += character
+    return cipher
 
 
 def decrypt_vigenere(ciphertext, keyword):
