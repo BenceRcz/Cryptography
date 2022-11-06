@@ -86,6 +86,63 @@ def decrypt_scytale(cipherText, scytale_circumference):
     return plainText
 
 
+# Railfence cypher
+def encrypt_railfence(plainText):
+    cipher = ""
+    plainText = list(plainText)
+    dist = 4
+    for i in range(0, 3):
+        j = i
+        while j < len(plainText):
+            cipher += plainText[j]
+            j += dist
+        if i == 0:
+            dist = 2
+        else:
+            dist = 4
+    return cipher
+
+
+def collect_line_members(cipherText, a, b, c):
+    if (len(cipherText) - 1) % 4 == 0:
+        offset = 1
+    else:
+        offset = 0
+    for i in range(0, len(cipherText)):
+        if i < int(len(cipherText) / 3) - offset:
+            a.append(cipherText[i])
+        elif i < int(len(cipherText) / 2) + int(len(cipherText) / 3) - offset:
+            b.append(cipherText[i])
+        else:
+            c.append(cipherText[i])
+
+
+def decrypt_railfence(cipherText):
+    plainText = ""
+    a = []; b = []; c = []
+    x = 0; y = 0; z = 0
+    collect_line_members(cipherText, a, b, c)
+    lengthA = len(a)
+    lengthB = len(b)
+    lengthC = len(c)
+
+    for i in range(0, len(cipherText)):
+        if x < lengthA:
+            plainText += a[x]
+            x += 1
+        if y < lengthB:
+            plainText += b[y]
+            y += 1
+        if z < lengthC:
+            plainText += c[z]
+            z += 1
+        if y < lengthB:
+            plainText += b[y]
+            y += 1
+
+    return plainText
+
+
 # Merkle-Hellman Knapsack Crypto-system
 def generate_private_key(n=8):
     """Generate a private key for use in the Merkle-Hellman Knapsack Cryptosystem.
