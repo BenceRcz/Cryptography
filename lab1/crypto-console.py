@@ -21,7 +21,7 @@ from crypto import (encrypt_caesar, decrypt_caesar,
 
 def get_tool():
     print("* Tool *")
-    return _get_selection("(C)aesar, (V)igenere or (M)erkle-Hellman? or (S)cytale", "CVM")
+    return _get_selection("(C)aesar, (V)igenere or (M)erkle-Hellman or (S)cytale? ", "CVMS")
 
 
 def get_action():
@@ -166,10 +166,12 @@ def run_scytale():
     encrypting = action == 'E'
     data = clean_caesar(get_input(binary=False))
 
+    circumference = input("Circumference? ")
+
     print("* Transform *")
     print("{}crypting {} using Scytale cipher...".format('En' if encrypting else 'De', data))
 
-    output = (encrypt_scytale if encrypting else decrypt_scytale)(data)
+    output = (encrypt_scytale if encrypting else decrypt_scytale)(data, circumference)
 
     set_output(output)
 

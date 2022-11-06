@@ -14,7 +14,6 @@ import math
 import utils
 
 shiftBy = 3
-scytale_circumference = 5
 
 
 def check_letter(character):
@@ -31,6 +30,7 @@ def encrypt_caesar(plaintext):
     return cipher
 
 
+# Decrypts Caesar cypher
 def decrypt_caesar(ciphertext):
     plainText = ""
     for character in ciphertext:
@@ -41,7 +41,6 @@ def decrypt_caesar(ciphertext):
 
 
 # Vigenere Cipher
-
 def encrypt_vigenere(plaintext, keyword):
     cipher = ""
     for i in range(len(plaintext)):
@@ -52,6 +51,7 @@ def encrypt_vigenere(plaintext, keyword):
     return cipher
 
 
+# Decrypts Vigenere Cipher
 def decrypt_vigenere(ciphertext, keyword):
     plainText = ""
     for i in range(len(ciphertext)):
@@ -61,21 +61,32 @@ def decrypt_vigenere(ciphertext, keyword):
         plainText += character
     return plainText
 
+
 # Scytale cipher
-
-
-def encrypt_scytale(plainText):
+def encrypt_scytale(plainText, scytale_circumference):
     cipher = ""
+    plainText = list(plainText)
+    for i in range(0, int(scytale_circumference)):
+        j = i
+        while j < len(plainText):
+            cipher += plainText[j]
+            j += int(scytale_circumference)
     return cipher
 
 
-def decrypt_scytale(cipherText):
+# Decrypts Scytale
+def decrypt_scytale(cipherText, scytale_circumference):
     plainText = ""
+    cipherText = list(cipherText)
+    for i in range(0, int(scytale_circumference) - 1):
+        j = i
+        while j < len(cipherText):
+            plainText += cipherText[j]
+            j += int(scytale_circumference) - 1
     return plainText
 
 
-# Merkle-Hellman Knapsack Cryptosystem
-
+# Merkle-Hellman Knapsack Crypto-system
 def generate_private_key(n=8):
     """Generate a private key for use in the Merkle-Hellman Knapsack Cryptosystem.
 
