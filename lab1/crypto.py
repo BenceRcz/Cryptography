@@ -13,11 +13,11 @@ import math
 
 import utils
 
+shiftBy = 3
+
 
 # Caesar Cipher
-
 def encrypt_caesar(plaintext):
-    shiftBy = 3
     plaintextList = list(plaintext)
     cipher = ""
     for character in plaintextList:
@@ -27,13 +27,14 @@ def encrypt_caesar(plaintext):
     return cipher
 
 
-
 def decrypt_caesar(ciphertext):
-    """Decrypt a ciphertext using a Caesar cipher.
-
-    Add more implementation details here.
-    """
-    raise NotImplementedError  # Your implementation here
+    ciphertextList = list(ciphertext)
+    plainText = ""
+    for character in ciphertextList:
+        if (64 < ord(character) < 91) or (96 < ord(character) < 123):
+            character = chr((ord(character) - shiftBy - 65) % 26 + 65)
+        plainText += character
+    return plainText
 
 
 # Vigenere Cipher
