@@ -52,11 +52,13 @@ def encrypt_vigenere(plaintext, keyword):
 
 
 def decrypt_vigenere(ciphertext, keyword):
-    """Decrypt ciphertext using a Vigenere cipher with a keyword.
-
-    Add more implementation details here.
-    """
-    raise NotImplementedError  # Your implementation here
+    plainText = ""
+    for i in range(len(ciphertext)):
+        character = ciphertext[i]
+        if check_letter(character):
+            character = chr((ord(character) - (ord(keyword[i]) - 65) - 65) % 26 + 65)
+        plainText += character
+    return plainText
 
 
 # Merkle-Hellman Knapsack Cryptosystem
