@@ -14,6 +14,7 @@ import math
 import utils
 
 shiftBy = 3
+scytale_circumference = 5
 
 
 def check_letter(character):
@@ -58,6 +59,18 @@ def decrypt_vigenere(ciphertext, keyword):
         if check_letter(character):
             character = chr((ord(character) - (ord(keyword[i]) - 65) - 65) % 26 + 65)
         plainText += character
+    return plainText
+
+# Scytale cipher
+
+
+def encrypt_scytale(plainText):
+    cipher = ""
+    return cipher
+
+
+def decrypt_scytale(cipherText):
+    plainText = ""
     return plainText
 
 
