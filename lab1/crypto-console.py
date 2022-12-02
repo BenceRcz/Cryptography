@@ -10,9 +10,9 @@ If you are a student, you shouldn't need to change anything in this file.
 import random
 
 from crypto import (encrypt_caesar, decrypt_caesar,
-                    encrypt_vigenere, decrypt_vigenere,
-                    generate_private_key, create_public_key,
-                    encrypt_mh, decrypt_mh, encrypt_scytale, decrypt_scytale, encrypt_railfence, decrypt_railfence)
+                    encrypt_vigenere, decrypt_vigenere, encrypt_scytale,
+                    decrypt_scytale, encrypt_railfence, decrypt_railfence,
+                    check_letter)
 
 
 #############################
@@ -94,12 +94,23 @@ def get_yes_or_no(prompt, reprompt=None):
     return choice[0] == 'Y'
 
 
+def check_length(text):
+    return len(text) > 0
+
+
 def clean_caesar(text):
     """Convert text to a form compatible with the preconditions imposed by Caesar cipher"""
     return text.upper()
 
 
 def clean_vigenere(text):
+    if not check_length(text):
+        print("The message has to have a length greater then 0")
+        exit(0)
+    for x in text:
+        if not check_letter(x):
+            print("The message and the keyword can only contain letters!")
+            exit(0)
     return ''.join(ch for ch in text.upper() if ch.isupper())
 
 
