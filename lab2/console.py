@@ -3,7 +3,7 @@ from encryptors import (solitaire, bbs)
 
 def encrypt(func, data, seed):
     initial_solitaire_seed = [i for i in range(55)]         # 53 is the white joker and 54 is the black joker
-    initial_solitaire_seed = solitaire(initial_solitaire_seed)
+    print(solitaire(initial_solitaire_seed))
     return
 
 

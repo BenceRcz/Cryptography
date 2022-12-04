@@ -44,6 +44,18 @@ def move_between_jokers(seed, first_index, last_index):
     return new_seed
 
 
+# This function moves the first n elements before the last element
+# Where n is the numeric value of the last element
+def count_from_last(seed, seed_length):
+    new_seed = []
+    for i in range(seed[seed_length - 1], seed_length - 1):
+        new_seed.append(seed[i])
+    for i in range(seed[seed_length - 1]):
+        new_seed.append(seed[i])
+    new_seed.append(seed[seed_length - 1])
+    return new_seed
+
+
 # This function implements the Solitaire algorithm to generate a key
 def solitaire(seed):
     seed_length = len(seed)
@@ -58,11 +70,17 @@ def solitaire(seed):
     black_joker = seed.index(54)
 
     if white_joker < black_joker:
-        move_between_jokers(seed, white_joker, black_joker)
+        seed = move_between_jokers(seed, white_joker, black_joker)
     else:
-        move_between_jokers(seed, black_joker, white_joker)
+        seed = move_between_jokers(seed, black_joker, white_joker)
 
-    return seed
+    if seed[seed_length - 1] != 53 and seed[seed_length - 1] != 54:      # last element isn't a joker
+        seed = count_from_last(seed, seed_length)
+
+    if seed[0] == 54 or seed[0] == 53:
+        return solitaire(seed)
+    else:
+        return seed[seed[0] + 1]
 
 
 # This function implements the Blum-Blum-Shub algorithm to generate a key
