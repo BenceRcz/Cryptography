@@ -1,8 +1,18 @@
+import random
+
 import numpy
+import sympy
 
 
 white_joker_value = 53
 black_joker_value = 54
+
+
+# This function initializes the prime numbers for BBS
+def init_prime(prime=5120):
+    while prime % 4 != 3 or not sympy.isprime(prime):
+        prime = sympy.nextprime(prime)
+    return prime
 
 
 # This function implements the first 2 steps of the Solitaire algorithm
@@ -86,10 +96,19 @@ def solitaire(seed):
     if seed[0] == black_joker_value or seed[0] == white_joker_value:
         return solitaire(seed)
     else:
-        print(seed)
         return seed[seed[0] + 1]
 
 
 # This function implements the Blum-Blum-Shub algorithm to generate a key
-def bbs(seed):
-    return
+def bbs(bits=32):
+    p = init_prime(random.randrange(512, 100000))
+    q = init_prime(p + 1)
+    n = p * q
+    s = random.randrange(1, n)
+    generated = []
+    x0 = pow(s, 2) % n
+    for i in range(bits):
+        xi = pow(x0, 2) % n
+        x0 = xi
+        generated.append(xi % 2)
+    return generated

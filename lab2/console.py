@@ -6,8 +6,7 @@ solitaire_deck_size = 54
 
 def encrypt(func, data, seed):
     initial_solitaire_seed = [i + 1 for i in range(solitaire_deck_size)]   # 53 -> white joker and 54 -> black joker
-    print(initial_solitaire_seed)
-    print(solitaire(initial_solitaire_seed))
+    print(bbs())
     return
 
 
