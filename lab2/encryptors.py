@@ -1,10 +1,14 @@
 import numpy
 
 
+white_joker_value = 53
+black_joker_value = 54
+
+
 # This function implements the first 2 steps of the Solitaire algorithm
 # Moving the joker (black and white)
 def move_joker(seed, joker, joker_index, seed_length):
-    if joker == 53:  # joker type
+    if joker == white_joker_value:  # joker type
         joker_offset = 1
     else:
         joker_offset = 2
@@ -12,7 +16,8 @@ def move_joker(seed, joker, joker_index, seed_length):
     if joker_index < seed_length - joker_offset:  # -1 or -2
         seed[joker_index], seed[joker_index + joker_offset] = seed[joker_index + joker_offset], seed[joker_index]
     else:
-        if joker == 53 or (joker == 54 and joker_index == seed_length - 2):  # white joker is last element or
+        if joker == white_joker_value or \
+                (joker == black_joker_value and joker_index == seed_length - 2):  # white joker is last element or
             # black joker is next to last
             i = seed_length - joker_offset
             while i > 1:
@@ -60,26 +65,28 @@ def count_from_last(seed, seed_length):
 def solitaire(seed):
     seed_length = len(seed)
     numpy.random.shuffle(seed)
-    white_joker = seed.index(53)
-    black_joker = seed.index(54)
+    white_joker = seed.index(white_joker_value)
+    black_joker = seed.index(black_joker_value)
 
-    seed = move_joker(seed, 53, white_joker, seed_length)
-    seed = move_joker(seed, 54, black_joker, seed_length)
+    seed = move_joker(seed, white_joker_value, white_joker, seed_length)
+    seed = move_joker(seed, black_joker_value, black_joker, seed_length)
 
-    white_joker = seed.index(53)
-    black_joker = seed.index(54)
+    white_joker = seed.index(white_joker_value)
+    black_joker = seed.index(black_joker_value)
 
     if white_joker < black_joker:
         seed = move_between_jokers(seed, white_joker, black_joker)
     else:
         seed = move_between_jokers(seed, black_joker, white_joker)
 
-    if seed[seed_length - 1] != 53 and seed[seed_length - 1] != 54:      # last element isn't a joker
+    if seed[seed_length - 1] != white_joker_value and seed[seed_length - 1] != black_joker_value:
+        # last element isn't a joker
         seed = count_from_last(seed, seed_length)
 
-    if seed[0] == 54 or seed[0] == 53:
+    if seed[0] == black_joker_value or seed[0] == white_joker_value:
         return solitaire(seed)
     else:
+        print(seed)
         return seed[seed[0] + 1]
 
 
