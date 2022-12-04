@@ -110,5 +110,5 @@ def bbs(bits=32):
     for i in range(bits):
         xi = pow(x0, 2) % n
         x0 = xi
-        generated.append(xi % 2)
-    return generated
+        generated.append(str(xi % 2))
+    return ''.join(generated)
