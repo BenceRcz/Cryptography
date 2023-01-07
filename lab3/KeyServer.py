@@ -2,37 +2,38 @@
 
 import socket as soc
 import threading as th
+import constants
 
-# loggedInClients holds the Id-s of each client and their keys
+# loggedInClients holds the Id-s of each clientSocket and their keys
 loggedInClients = {}
 
 
-# This function handles a registered client
-def handle_registered_client(client, clientId, clientKey):
+# This function handles a registered clientSocket
+def handle_registered_client(clientSocket, clientId, clientKey):
     isLoggedOut = False
 
     if clientId not in loggedInClients:
         loggedInClients[clientId] = clientKey
 
     while not isLoggedOut:
-        msg = client.recv(2048).decode()
+        msg = clientSocket.recv(2048).decode()
         if msg == 'exit':
             print('           - Client with id: ' + clientId + ' has logged out')
             isLoggedOut = True
         elif '<receivedNewId>' in msg:
             loggedInClients.pop(clientId, None)         # remove old id: key pair
-            print('           - Server received new Id from client: ' + clientId)
-            print('           - New Id from client: ', end='')
-            msg.split('<receivedNewId>')
+            print('           - Server received new Id from clientSocket: ' + clientId)
+            print('           - New Id from clientSocket: ', end='')
+            msg = msg.split('<receivedNewId>')
             clientId = msg[0]
             loggedInClients[clientId] = clientKey
             print(clientId)
         elif '<receivedNewKey>' in msg:
-            print('           - Server received new key from client with Id: ' + clientId)
-            msg.split('<receivedNewKey>')
+            print('           - Server received new key from clientSocket with Id: ' + clientId)
+            msg = msg.split('<receivedNewKey>')
             clientKey = msg[0]
             loggedInClients[clientId] = clientKey
-            print('           - New key from client with Id: ' + clientId + ' = ' + clientKey)
+            print('           - New key from clientSocket with Id: ' + clientId + ' = ' + clientKey)
     return
 
 
@@ -41,26 +42,34 @@ def msgIsValidId(receivedId):
     return receivedId.isdigit()
 
 
-# This function handles a new joiner client to the server
-def new_joiner(client):
-    print('           - Server connected with new client: Waiting for Id')
+# This function handles a new joiner clientSocket to the server
+def new_joiner(clientSocket):
+    returnMsg = ''
+    key = ''
+    receivedId = 0
+
+    print('           - Server connected with new clientSocket: Waiting for Id')
     waitForId = True
     while waitForId:
-        msg = client.recv(2048).decode()
-        print('           - Server received receivedId from client: ', end='')
-        msg.split('<receivedId>')
+        msg = clientSocket.recv(2048).decode()
+        print('           - Server received Id from clientSocket: ', end='')
+        msg = msg.split('<receivedId>')
         receivedId = msg[0]
         key = msg[1]
         print(receivedId)
         if msgIsValidId(receivedId):
-            print('Id is valid')
+            print('           - Id is valid')
             waitForId = False
+            returnMsg = 'OK'
         else:
-            print('Id is invalid')
+            print('           - Id is invalid')
+            returnMsg = 'Id is invalid'
 
-    print('           - Server connected with new client: With Id: ' + receivedId)
+    clientSocket.send(returnMsg.encode('ascii'))
 
-    handle_registered_client(client, receivedId, key)
+    print('           - Server connected with new clientSocket: Id = ' + receivedId)
+
+    handle_registered_client(clientSocket, receivedId, key)
 
     return
 
@@ -68,16 +77,15 @@ def new_joiner(client):
 # This is the main function
 def main():
     serverSocket = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
-    serverSocket.bind(('', 4000))
+    serverSocket.bind(('', constants.KEYSERVER_PORT))
     serverSocket.listen(1)
 
     print('--------------------------HELLO--------------------------')
     print('------------------The server is running------------------')
 
     while True:
-        client, address = serverSocket.accept()
-        th.Thread(target=new_joiner(), args=(client,)).start()
-        # handle_nickname(client)
+        clientSocket, address = serverSocket.accept()
+        th.Thread(target=new_joiner, args=(clientSocket,)).start()
 
     return
 
