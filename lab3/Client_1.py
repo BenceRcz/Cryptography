@@ -10,7 +10,48 @@ import threading as th
 INITIAL_CLIENT_ID = 4001
 
 
-# This function handles the login to the KeyServer
+# This function prints the commands available for the KeyServer
+def print_usage():
+    print('------------------KEYSERVER COMMANDS------------------')
+    print('--           Help: prints usage again               --')
+    print('--           Exit: Stops the app                    --')
+    print('--           ViewID: returns your id                --')
+    print('--           ViewKey: returns your key              --')
+    print('--           ChangeKey: changes your key            --')
+    print('--        LogOut: Logs out of the KeyServer         --')
+    print('------------------------------------------------------')
+    return
+
+
+# This function handles the communication with the KeyServer
+def communicate_with_server(serverSocket, clientId, clientKey):
+    print_usage()
+    msg = ''
+    receivedMsg = ''
+
+    while True:
+        userInput = input('Waiting for command ')
+        if userInput == 'Exit':
+            break
+        elif userInput == 'Help':
+            print_usage()
+        elif userInput == 'ViewID':
+            print('          - Your Id is: ' + str(clientId))
+        elif userInput == 'ViewKey':
+            print('          - Your Key is: ' + clientKey)
+        elif userInput == 'ChangeKey':
+            newKey = 'new key'                                          # TO BE IMPLEMENTED
+            msg = newKey
+        elif userInput == 'Logout':
+            msg = 'LOGOUT'
+        elif msg != '':
+            serverSocket.send(msg.encode('ascii'))
+            msg = ''
+
+    return
+
+
+# This function handles the registration of the client into the KeyServer
 def register_to_server(serverSocket, clientId, clientKey):
     print('         - Connected with key server')
     isLoggedIn = False
@@ -23,12 +64,14 @@ def register_to_server(serverSocket, clientId, clientKey):
         serverSocket.send(msg.encode('ascii'))
         receivedMsg = serverSocket.recv(2048).decode()
         if receivedMsg == 'OK':
-            print('itt1')
             isLoggedIn = True
         else:
             clientId = clientId + 1
 
     print('         - Successfully registered with following Id: ' + str(clientId))
+
+    communicate_with_server(serverSocket, clientId, clientKey)
+
     return
 
 

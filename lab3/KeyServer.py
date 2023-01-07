@@ -17,17 +17,10 @@ def handle_registered_client(clientSocket, clientId, clientKey):
 
     while not isLoggedOut:
         msg = clientSocket.recv(2048).decode()
-        if msg == 'exit':
+        if msg == 'LOGOUT':
             print('           - Client with id: ' + clientId + ' has logged out')
             isLoggedOut = True
-        elif '<receivedNewId>' in msg:
-            loggedInClients.pop(clientId, None)         # remove old id: key pair
-            print('           - Server received new Id from clientSocket: ' + clientId)
-            print('           - New Id from clientSocket: ', end='')
-            msg = msg.split('<receivedNewId>')
-            clientId = msg[0]
-            loggedInClients[clientId] = clientKey
-            print(clientId)
+            loggedInClients.pop(clientId, None)
         elif '<receivedNewKey>' in msg:
             print('           - Server received new key from clientSocket with Id: ' + clientId)
             msg = msg.split('<receivedNewKey>')
