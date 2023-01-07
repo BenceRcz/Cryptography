@@ -10,8 +10,29 @@ loggedInClients = {}
 # This function handles a registered client
 def handle_registered_client(client, clientId, clientKey):
     isLoggedOut = False
-    while not isLoggedOut:
 
+    if clientId not in loggedInClients:
+        loggedInClients[clientId] = clientKey
+
+    while not isLoggedOut:
+        msg = client.recv(2048).decode()
+        if msg == 'exit':
+            print('           - Client with id: ' + clientId + ' has logged out')
+            isLoggedOut = True
+        elif '<receivedNewId>' in msg:
+            loggedInClients.pop(clientId, None)         # remove old id: key pair
+            print('           - Server received new Id from client: ' + clientId)
+            print('           - New Id from client: ', end='')
+            msg.split('<receivedNewId>')
+            clientId = msg[0]
+            loggedInClients[clientId] = clientKey
+            print(clientId)
+        elif '<receivedNewKey>' in msg:
+            print('           - Server received new key from client with Id: ' + clientId)
+            msg.split('<receivedNewKey>')
+            clientKey = msg[0]
+            loggedInClients[clientId] = clientKey
+            print('           - New key from client with Id: ' + clientId + ' = ' + clientKey)
     return
 
 
@@ -30,6 +51,7 @@ def new_joiner(client):
         msg.split('<receivedId>')
         receivedId = msg[0]
         key = msg[1]
+        print(receivedId)
         if msgIsValidId(receivedId):
             print('Id is valid')
             waitForId = False
