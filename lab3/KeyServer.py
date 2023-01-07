@@ -39,7 +39,7 @@ def handle_registered_client(clientSocket, clientId, clientKey):
 
 # This function checks if the received message is a valid Id
 def msgIsValidId(receivedId):
-    return receivedId.isdigit()
+    return receivedId.isdigit() and receivedId not in loggedInClients
 
 
 # This function handles a new joiner clientSocket to the server
@@ -65,7 +65,7 @@ def new_joiner(clientSocket):
             print('           - Id is invalid')
             returnMsg = 'Id is invalid'
 
-    clientSocket.send(returnMsg.encode('ascii'))
+        clientSocket.send(returnMsg.encode('ascii'))
 
     print('           - Server connected with new clientSocket: Id = ' + receivedId)
 

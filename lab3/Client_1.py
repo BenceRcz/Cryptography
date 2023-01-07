@@ -16,15 +16,18 @@ def register_to_server(serverSocket, clientId, clientKey):
     isLoggedIn = False
     msg = ''
     receivedMsg = ''
+    
     while not isLoggedIn:
         msg = str(clientId) + '<receivedId>' + clientKey
         print('         - Sending message: ' + msg)
         serverSocket.send(msg.encode('ascii'))
         receivedMsg = serverSocket.recv(2048).decode()
         if receivedMsg == 'OK':
+            print('itt1')
             isLoggedIn = True
         else:
-            clientId += 1
+            clientId = clientId + 1
+
     print('         - Successfully registered with following Id: ' + str(clientId))
     return
 
