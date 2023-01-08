@@ -10,6 +10,3 @@ INITIAL_CLIENT_ID = 4001
 WHITE_JOKER_VALUE = 53
 BLACK_JOKER_VALUE = 54
 
-# This value represents the number of tests there will be run on each tested file/algorithm in
-# the UnitTest file
-NR_OF_TESTS = 8

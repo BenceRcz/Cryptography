@@ -1,13 +1,12 @@
 #!/usr/bin/env python3 -tt
 """
-File: crypto-console.py
+File: crypto-byte_array_encryption.py
 -----------------------
 Implements a console menu to interact with the cryptography functions exported
 by the crypto module.
 
 If you are a student, you shouldn't need to change anything in this file.
 """
-import random
 
 from crypto import (encrypt_caesar, decrypt_caesar,
                     encrypt_vigenere, decrypt_vigenere, encrypt_scytale,
@@ -142,36 +141,6 @@ def run_vigenere():
     set_output(output)
 
 
-def run_merkle_hellman():
-    action = get_action()
-
-    print("* Seed *")
-    seed = input("Set Seed [enter for random]: ")
-    import random
-    if not seed:
-        random.seed()
-    else:
-        random.seed(seed)
-
-    print("* Building private key...")
-
-    private_key = generate_private_key()
-    public_key = create_public_key(private_key)
-
-    if action == 'E':  # Encrypt
-        data = get_input(binary=True)
-        print("* Transform *")
-        chunks = encrypt_mh(data, public_key)
-        output = ' '.join(map(str, chunks))
-    else:  # Decrypt
-        data = get_input(binary=False)
-        chunks = [int(line.strip()) for line in data.split() if line.strip()]
-        print("* Transform *")
-        output = decrypt_mh(chunks, private_key)
-
-    set_output(output)
-
-
 def run_scytale():
     action = get_action()
     encrypting = action == 'E'
@@ -214,7 +183,6 @@ def run_suite():
     commands = {
         'C': run_caesar,         # Caesar Cipher
         'V': run_vigenere,       # Vigenere Cipher
-        'M': run_merkle_hellman,  # Merkle-Hellman Knapsack Cryptosystem
         'S': run_scytale,        # Scytale Cipher
         'R': run_railfence      # Railfence
     }

@@ -3,13 +3,18 @@
 Mathematical utilities for CS41's Assignment 1: Cryptography.
 """
 import fractions as _fractions
+import string
+import random
+
 
 class Error(Exception):
     """Base class for exceptions in this module."""
 
+
 class BinaryConversionError(Error):
     """Custom exception for invalid binary conversions."""
     pass
+
 
 def is_superincreasing(seq):
     """Return whether a given sequence is superincreasing."""
@@ -33,7 +38,7 @@ def modinv(a, b):
     x, y, u, v = 0, 1, 1, 0
     while a:
         q, r = b // a, b % a
-        m, n = x - u*q, y - v*q
+        m, n = x - u * q, y - v * q
         b, a, x, y, u, v = a, r, u, v, m, n
     return x % saved
 
@@ -64,3 +69,10 @@ def bits_to_byte(bits):
         if bit:
             byte += 1
     return byte
+
+
+# This function returns a random string
+def get_random_string(length):
+    letters = string.ascii_lowercase
+    res = ''.join(random.choice(letters) for i in range(length))
+    return res

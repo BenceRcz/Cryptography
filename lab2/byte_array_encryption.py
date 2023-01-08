@@ -1,6 +1,6 @@
 import math
 
-from encryptors import (solitaire, bbs)
+from lab2.encryptors import (solitaire, bbs)
 
 
 solitaire_deck_size = 54
