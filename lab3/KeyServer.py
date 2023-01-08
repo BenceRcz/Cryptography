@@ -30,7 +30,7 @@ def handle_registered_client(clientSocket, clientId, clientKey):
     return
 
 
-# This function checks if the received message is a valid Id
+# This function checks if the received messageToBeEncrypted is a valid Id
 def msgIsValidId(receivedId):
     return receivedId.isdigit() and receivedId not in loggedInClients
 

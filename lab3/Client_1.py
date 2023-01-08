@@ -6,8 +6,8 @@ import socket as soc
 import threading as th
 
 
-# Initial clientSocket Id, also the port it will be connecting to
-INITIAL_CLIENT_ID = 4001
+# Client1s private key
+privateKey = ''
 
 
 # This function prints the commands available for the KeyServer
@@ -60,7 +60,7 @@ def register_to_server(serverSocket, clientId, clientKey):
     
     while not isLoggedIn:
         msg = str(clientId) + '<receivedId>' + clientKey
-        print('         - Sending message: ' + msg)
+        print('         - Sending messageToBeEncrypted: ' + msg)
         serverSocket.send(msg.encode('ascii'))
         receivedMsg = serverSocket.recv(2048).decode()
         if receivedMsg == 'OK':
@@ -77,7 +77,7 @@ def register_to_server(serverSocket, clientId, clientKey):
 
 def main():
     key = 'abcdefgh'
-    clientId = INITIAL_CLIENT_ID
+    clientId = constants.INITIAL_CLIENT_ID
 
     serverSocket = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
     serverSocket.connect(('localhost', constants.KEYSERVER_PORT))

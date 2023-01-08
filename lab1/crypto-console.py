@@ -105,11 +105,11 @@ def clean_caesar(text):
 
 def clean_vigenere(text):
     if not check_length(text):
-        print("The message has to have a length greater then 0")
+        print("The messageToBeEncrypted has to have a length greater then 0")
         exit(0)
     for x in text:
         if not check_letter(x):
-            print("The message and the keyword can only contain letters!")
+            print("The messageToBeEncrypted and the keyword can only contain letters!")
             exit(0)
     return ''.join(ch for ch in text.upper() if ch.isupper())
 
