@@ -7,6 +7,9 @@ import constants
 # loggedInClients holds the Id-s of each clientSocket and their keys
 loggedInClients = {}
 
+# clientSockets holds the sockets for every logged in client
+clientSockets = {}
+
 
 # This function handles a registered clientSocket
 def handle_registered_client(clientSocket, clientId, clientKey):
@@ -21,12 +24,29 @@ def handle_registered_client(clientSocket, clientId, clientKey):
             print('           - Client with id: ' + clientId + ' has logged out')
             isLoggedOut = True
             loggedInClients.pop(clientId, None)
-        elif '<receivedNewKey>' in msg:
+        elif msg == 'GETCLIENTS':
+            returnMsg = ' '.join(loggedInClients.keys())
+            clientSocket.send(returnMsg.encode('ascii'))
+        elif '<receivedNewKey>' in msg: # when a client wants a new public key send a message in the following
+            # format clientsID<receivedNewKey>newKey
             print('           - Server received new key from clientSocket with Id: ' + clientId)
             msg = msg.split('<receivedNewKey>')
             clientKey = msg[0]
             loggedInClients[clientId] = clientKey
             print('           - New key from clientSocket with Id: ' + clientId + ' = ' + clientKey)
+        elif '<exchangeKeys>' in msg:               # when a client wants new keys they send a message in the following
+            # format clientsId<exchangeKeys=>otherClientID
+            keyReqFrom = msg.split('<exchangeKeys=>')[1]
+            print('           - Client with id: ' + clientId + ' has requested public key of: ' + keyReqFrom)
+            if keyReqFrom in loggedInClients.keys():
+                print('           - Request accepted user exists')
+                returnMsg = loggedInClients[keyReqFrom]
+            else:
+                returnMsg = 'Requested Id not logged in'
+                print('           - Request denied user is not logged in')
+
+            clientSocket.send(returnMsg.encode('ascii'))
+
     return
 
 
@@ -62,6 +82,7 @@ def new_joiner(clientSocket):
 
     print('           - Server connected with new clientSocket: Id = ' + receivedId)
 
+    clientSockets[receivedId] = clientSocket
     handle_registered_client(clientSocket, receivedId, key)
 
     return
