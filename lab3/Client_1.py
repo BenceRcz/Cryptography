@@ -33,6 +33,7 @@ def communicate_with_server(serverSocket, clientId):
     global publicKey
     global privateKey
     waitForResp = False
+    isKey = False
     print_usage()
     msg = ''
     receivedMsg = ''
@@ -56,11 +57,24 @@ def communicate_with_server(serverSocket, clientId):
         elif userInput == 'LoggedIn':
             msg = 'GETCLIENTS'
             waitForResp = True
+            isKey = True
+        elif userInput == 'Send':
+            msgTo = input('Add the user id of the person you want to send a message to: ')
+            messageToUser = input('Please add your message: ')
+            waitForResp = True
+            msg = str(msgTo) + '<sendMessageWithLength>' + str(len(messageToUser))
+            serverSocket.send(msg.encode('ascii'))
+
         if msg != '':
             serverSocket.send(msg.encode('ascii'))
             if waitForResp:
                 msg = serverSocket.recv(2048).decode()
-                print('          - Logged in clients: ' + msg)
+                if not isKey:
+                    print('          - Logged in clients: ' + msg)
+                else:
+                    # TODO DECRYPT KEY
+                    print('          - Received Key: ' + str(receivedMsg))
+                    isKey = False
                 waitForResp = False
             msg = ''
 

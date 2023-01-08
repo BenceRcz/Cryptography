@@ -3,6 +3,8 @@
 import socket as soc
 import threading as th
 import constants
+from lab2.encryptors import solitaire
+from lab2.byte_array_encryption import (generate_key_with_data_len_give)
 
 # loggedInClients holds the Id-s of each clientSocket and their keys
 loggedInClients = {}
@@ -29,20 +31,23 @@ def handle_registered_client(clientSocket, clientId, clientKey):
             returnMsg = ' '.join(loggedInClients.keys())
             clientSocket.send(returnMsg.encode('ascii'))
             print('           - Ids sent')
-        elif '<receivedNewKey>' in msg: # when a client wants a new public key send a message in the following
+        elif '<receivedNewKey>' in msg:  # when a client wants a new public key send a message in the following
             # format clientsID<receivedNewKey>newKey
             print('           - Server received new key from clientSocket with Id: ' + clientId)
             msg = msg.split('<receivedNewKey>')
             clientKey = msg[0]
             loggedInClients[clientId] = clientKey
             print('           - New key from clientSocket with Id: ' + clientId + ' = ' + clientKey)
-        elif '<exchangeKeys>' in msg:               # when a client wants new keys they send a message in the following
-            # format clientsId<exchangeKeys=>otherClientID
-            keyReqFrom = msg.split('<exchangeKeys=>')[1]
-            print('           - Client with id: ' + clientId + ' has requested public key of: ' + keyReqFrom)
+        elif '<sendMessageWithLength>' in msg:
+            msg = msg.split('<sendMessageWithLength>')
+            keyReqFrom = msg[0]
+            messageLen = msg[1]
+            print('           - Client with id: ' + clientId + ' has requested public key of: ' + str(keyReqFrom))
             if keyReqFrom in loggedInClients.keys():
                 print('           - Request accepted user exists')
-                returnMsg = loggedInClients[keyReqFrom]
+                # TODO ENCRYPT KEY
+                generatedKey = generate_key_with_data_len_give(messageLen, solitaire)
+                returnMsg = str(generatedKey)
             else:
                 returnMsg = 'Requested Id not logged in'
                 print('           - Request denied user is not logged in')

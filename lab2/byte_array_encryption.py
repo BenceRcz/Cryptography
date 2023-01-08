@@ -37,6 +37,22 @@ def generate_key(data, enc_algorithm):
     return key
 
 
+# Added this function for lab3, could have thought about just passing the length of the data sooner
+def generate_key_with_data_len_give(dataLength, enc_algorithm):
+    if enc_algorithm == solitaire:
+        seed = [i + 1 for i in range(54)]
+    else:
+        seed = 32
+    key = ""
+    size = math.trunc(dataLength / 32)
+    for i in range(size):
+        if enc_algorithm == solitaire:
+            key += format(enc_algorithm(seed), '032b')
+        else:
+            key += enc_algorithm(seed)
+    return key
+
+
 def encrypt(data, key):
     new = [(ord(a) ^ ord(b)) for a, b in zip(key, data)]
     cipher = ""
