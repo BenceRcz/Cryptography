@@ -25,8 +25,10 @@ def handle_registered_client(clientSocket, clientId, clientKey):
             isLoggedOut = True
             loggedInClients.pop(clientId, None)
         elif msg == 'GETCLIENTS':
+            print('           - Client with id requested logged in clients list: ' + clientId)
             returnMsg = ' '.join(loggedInClients.keys())
             clientSocket.send(returnMsg.encode('ascii'))
+            print('           - Ids sent')
         elif '<receivedNewKey>' in msg: # when a client wants a new public key send a message in the following
             # format clientsID<receivedNewKey>newKey
             print('           - Server received new key from clientSocket with Id: ' + clientId)

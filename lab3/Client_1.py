@@ -9,8 +9,8 @@ import threading as th
 
 
 # Client1s private key
-privateKey = generate_private_key(8)
-publicKey = create_public_key(privateKey)
+privateKey = []
+publicKey = []
 
 
 # This function prints the commands available for the KeyServer
@@ -23,6 +23,7 @@ def print_usage():
     print('--           ViewKey: returns your key              --')
     print('--           ChangeKey: changes your key            --')
     print('--        LogOut: Logs out of the KeyServer         --')
+    print('--           Send: send message to someone          --')
     print('------------------------------------------------------')
     return
 
@@ -30,6 +31,7 @@ def print_usage():
 # This function handles the communication with the KeyServer
 def communicate_with_server(serverSocket, clientId):
     global publicKey
+    global privateKey
     waitForResp = False
     print_usage()
     msg = ''
@@ -44,16 +46,17 @@ def communicate_with_server(serverSocket, clientId):
         elif userInput == 'ViewID':
             print('          - Your Id is: ' + str(clientId))
         elif userInput == 'ViewKey':
-            print('          - Your Key is: ' + publicKey)
+            print('          - Your Key is: ' + ','.join(str(v) for v in publicKey))
         elif userInput == 'ChangeKey':
-            newKey = 'new key'                                          # TO BE IMPLEMENTED
-            msg = newKey
+            privateKey = generate_private_key(8)
+            publicKey = create_public_key(privateKey)
+            msg = str(clientId) + '<receivedNewKey>' + ','.join(str(v) for v in publicKey)
         elif userInput == 'Logout':
             msg = 'LOGOUT'
         elif userInput == 'LoggedIn':
             msg = 'GETCLIENTS'
             waitForResp = True
-        elif msg != '':
+        if msg != '':
             serverSocket.send(msg.encode('ascii'))
             if waitForResp:
                 msg = serverSocket.recv(2048).decode()
@@ -73,7 +76,7 @@ def register_to_server(serverSocket, clientId):
     receivedMsg = ''
     
     while not isLoggedIn:
-        msg = str(clientId) + '<receivedId>' + publicKey
+        msg = str(clientId) + '<receivedId>' + ','.join(str(v) for v in publicKey)
         print('         - Sending messageToBeEncrypted: ' + msg)
         serverSocket.send(msg.encode('ascii'))
         receivedMsg = serverSocket.recv(2048).decode()
@@ -90,6 +93,11 @@ def register_to_server(serverSocket, clientId):
 
 
 def main():
+    global privateKey
+    global publicKey
+    privateKey = generate_private_key(8)
+    publicKey = create_public_key(privateKey)
+
     clientId = constants.INITIAL_CLIENT_ID
 
     serverSocket = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
