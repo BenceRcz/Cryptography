@@ -87,9 +87,9 @@ def decrypt_mh(messageToBeEncrypted, privateKey):
     return decryptedBytes, decryptedText
 
 
-pKey = generate_private_key(8)
-pubKey = create_public_key(pKey)
-message = encrypt_mh("I am hurt $end help120438 10248@#59", pubKey)
-print(message)
-byte_array, text = decrypt_mh(message, pKey)
-print(byte_array, "\n", text)
+# pKey = generate_private_key(8)
+# pubKey = create_public_key(pKey)
+# message = encrypt_mh("I am hurt $end help120438 10248@#59", pubKey)
+# print(message)
+# byte_array, text = decrypt_mh(message, pKey)
+# print(byte_array, "\n", text)
