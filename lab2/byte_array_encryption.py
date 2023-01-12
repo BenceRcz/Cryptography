@@ -81,10 +81,19 @@ def convert_bin_to_string(binary_data):
 def main():
     data = input("data to be encrypted: ")
     binary_data = convert_to_binary(data)
+    key = generate_key(binary_data, solitaire)
+    cipher = encrypt(binary_data, key)
+    message = decrypt(cipher, key)
+    print("-------------SOLITAIRE-------------")
+    print("The cipher: " + convert_bin_to_string(cipher))
+    print(convert_bin_to_string(message))
+
+    binary_data = convert_to_binary(data)
     key = generate_key(binary_data, bbs)
     cipher = encrypt(binary_data, key)
     message = decrypt(cipher, key)
-    # print("The cipher: " + convert_bin_to_string(cipher))
+    print("-------------BLUM-BLUM-SHUB-------------")
+    print("The cipher: " + cipher)
     print(convert_bin_to_string(message))
     return
 
