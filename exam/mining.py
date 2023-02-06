@@ -24,7 +24,7 @@ def simulate():
     i = 0
     n = 0
     converted_string = hashlib.sha256(bytes(lab3.constants.INPUT_STRING, encoding="UTF-8")).hexdigest()
-    for i in range(999999999):
+    for i in range(lab3.constants.ITERATIONS):
         converted_n = hex(n)[2:]    # we cut the first part of the hex number ex 0x0 becomes 0
         newValue = converted_string + str(converted_n)
         hashedValue = hashlib.sha256(bytes(newValue, encoding="UTF-8")).hexdigest()
@@ -32,10 +32,12 @@ def simulate():
         if hashedValue[:7] == "0000000":
             found7 += 1
             sevens.append((converted_n, i))
+            print(str(converted_n) + " " + str(i))
 
         if hashedValue[:6] == "000000":
             found6 += 1
             sixes.append((converted_n, i))
+            print(str(converted_n) + " " + str(i))
 
         i += 1
         n += 1
