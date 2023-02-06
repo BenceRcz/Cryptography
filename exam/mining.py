@@ -24,7 +24,7 @@ def simulate():
     i = 0
     n = 0
     converted_string = hashlib.sha256(bytes(lab3.constants.INPUT_STRING, encoding="UTF-8")).hexdigest()
-    while True:
+    for i in range(999999999):
         converted_n = hex(n)[2:]    # we cut the first part of the hex number ex 0x0 becomes 0
         newValue = converted_string + str(converted_n)
         hashedValue = hashlib.sha256(bytes(newValue, encoding="UTF-8")).hexdigest()
@@ -39,11 +39,10 @@ def simulate():
             sixes.append((converted_n, i))
             print(str(converted_n) + " " + str(i))
 
-        if found6 != 0 and found7 != 0:
-            print_output(found6, sixes, found7, sevens, i)
-            break
         i += 1
         n += 1
+
+    print_output(found6, sixes, found7, sevens, i)
     return
 
 
