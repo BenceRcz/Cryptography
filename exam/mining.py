@@ -29,15 +29,13 @@ def simulate():
         newValue = converted_string + str(converted_n)
         hashedValue = hashlib.sha256(bytes(newValue, encoding="UTF-8")).hexdigest()
 
-        if hashedValue[-7:] == "0000000":
+        if hashedValue[:7] == "0000000":
             found7 += 1
             sevens.append((converted_n, i))
-            print(str(converted_n) + " " + str(i))
 
-        if hashedValue[-6:] == "000000":
+        if hashedValue[:6] == "000000":
             found6 += 1
             sixes.append((converted_n, i))
-            print(str(converted_n) + " " + str(i))
 
         i += 1
         n += 1
