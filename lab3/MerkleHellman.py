@@ -1,6 +1,6 @@
 # This module contains functions for the Merkle-Hellman Knapsack Cryptosystem
 
-import lab1.utils as utils
+# import lab1.utils as utils
 from random import randint
 import math
 

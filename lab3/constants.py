@@ -10,3 +10,7 @@ INITIAL_CLIENT_ID = 4001
 WHITE_JOKER_VALUE = 53
 BLACK_JOKER_VALUE = 54
 
+# Input string for mining simulation
+INPUT_STRING = "Nehez ez a vizsga"
+
+
