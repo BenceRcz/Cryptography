@@ -2,20 +2,17 @@
 """
 File: crypto.py
 ---------------
+
 Assignment 1: Cryptography
-Course: CS 41
 Name: Bence Racz
-SUNet: <SUNet ID>
 
-Replace this with a description of the program.
 """
-import math
 
-import utils
-
-shiftBy = 3
+from constants import SHIFT_BY
+shiftBy = SHIFT_BY
 
 
+# This function checks if the given character is between A-Z or a-z (ascii table)
 def check_letter(character):
     return (64 < ord(character) < 91) or (96 < ord(character) < 123)
 
@@ -103,6 +100,7 @@ def encrypt_railfence(plainText):
     return cipher
 
 
+# This function collects the characters on all 3 lines
 def collect_line_members(cipherText, a, b, c):
     if (len(cipherText) - 1) % 4 == 0:
         offset = 1
@@ -117,6 +115,7 @@ def collect_line_members(cipherText, a, b, c):
             c.append(cipherText[i])
 
 
+# This function decrypts a cipher encrypted using a railfence cipher
 def decrypt_railfence(cipherText):
     plainText = ""
     a = []; b = []; c = []
@@ -141,8 +140,3 @@ def decrypt_railfence(cipherText):
             y += 1
 
     return plainText
-
-
-# Solitaire cipher
-def encrypt_solitaire():
-    return

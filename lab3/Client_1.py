@@ -5,7 +5,6 @@ import constants
 import socket as soc
 from MerkleHellman import *
 # from MerkleHellman import (generate_private_key, create_public_key, encrypt_mh, decrypt_mh)
-import threading as th
 
 
 # Client1s private key

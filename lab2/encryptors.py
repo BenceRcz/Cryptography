@@ -3,8 +3,8 @@
 import random
 import numpy
 import sympy
-from lab3.constants import WHITE_JOKER_VALUE        # For lab3 I added the use of the constants module
-from lab3.constants import BLACK_JOKER_VALUE
+from constants import WHITE_JOKER_VALUE        # For lab3 I added the use of the constants module
+from constants import BLACK_JOKER_VALUE
 
 
 # This function initializes the prime numbers for BBS

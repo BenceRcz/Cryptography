@@ -14,6 +14,8 @@ BLACK_JOKER_VALUE = 54
 INPUT_STRING = "Nehez ez a vizsga"
 
 # Mining iteration number
-ITERATIONS = 400000000
+ITERATIONS = 999999999
+
+SHIFT_BY = 3
 
 
