@@ -5,7 +5,7 @@ import MerkleHellman
 import lab1.utils as utils
 
 
-# This class implements a test class for Merkle-Hellman
+# This class implements a unit test for Merkle-Hellman
 class TestMerkleHellman(unittest.TestCase):
     def test_mh_3(self):
         message = utils.get_random_string(3)

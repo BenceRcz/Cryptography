@@ -6,6 +6,9 @@ import math
 
 
 # This function implements the private key generation for Merkle-Hellman Knapsack Cryptosystem
+from lab1 import utils
+
+
 def generate_private_key(n=8):          # By default, we create 8 bit long chunks
     w = [0 for i in range(n)]
     w[0] = randint(2, 10)

@@ -13,6 +13,8 @@ from crypto import (encrypt_caesar, decrypt_caesar,
                     decrypt_scytale, encrypt_railfence, decrypt_railfence,
                     check_letter)
 
+from lab3.MerkleHellman import (generate_private_key, create_public_key, encrypt_mh, decrypt_mh)
+
 
 #############################
 # GENERAL CONSOLE UTILITIES #
@@ -24,7 +26,7 @@ def get_tool():
 
 
 def get_action():
-    """Return true iff encrypt"""
+    """Return true if encrypt"""
     print("* Action *")
     return _get_selection("(E)ncrypt or (D)ecrypt? ", "ED")
 
@@ -98,11 +100,17 @@ def check_length(text):
 
 
 def clean_caesar(text):
-    """Convert text to a form compatible with the preconditions imposed by Caesar cipher"""
+    """Converts text to a form compatible with the preconditions imposed by Caesar cipher"""
     return text.upper()
 
 
 def clean_vigenere(text):
+    """
+    Converts text to a form compatible with the preconditions imposed by Vigenere cipher
+
+    Returns error if the user has provided an invalid input
+    Returns without error if input was valid (or it could be modified)
+    """
     if not check_length(text):
         print("The messageToBeEncrypted has to have a length greater then 0")
         exit(0)
@@ -114,6 +122,12 @@ def clean_vigenere(text):
 
 
 def run_caesar():
+    """
+    Runs the caesar cryptosystem
+
+    If the user selects encryption then it will call the encryption function
+    Else it will call the decryption function
+    """
     action = get_action()
     encrypting = action == 'E'
     data = clean_caesar(get_input(binary=False))
@@ -127,6 +141,12 @@ def run_caesar():
 
 
 def run_vigenere():
+    """
+    Runs the vigenere cryptosystem
+
+    If the user selects encryption then it will call the encryption function
+    Else it will call the decryption function
+    """
     action = get_action()
     encrypting = action == 'E'
     data = clean_vigenere(get_input(binary=False))
@@ -142,6 +162,12 @@ def run_vigenere():
 
 
 def run_scytale():
+    """
+    Runs the scytale cryptosystem
+
+    If the user selects encryption then it will call the encryption function
+    Else it will call the decryption function
+    """
     action = get_action()
     encrypting = action == 'E'
     data = clean_caesar(get_input(binary=False))
@@ -157,6 +183,12 @@ def run_scytale():
 
 
 def run_railfence():
+    """
+    Runs the railfence cryptosystem
+
+    If the user selects encryption then it will call the encryption function
+    Else it will call the decryption function
+    """
     action = get_action()
     encrypting = action == 'E'
     data = clean_caesar(get_input(binary=False))
@@ -190,7 +222,7 @@ def run_suite():
 
 
 def main():
-    """Harness for CS41 Assignment 1"""
+    """main function of console application"""
     print("Welcome to the Cryptography Suite!")
     run_suite()
     while get_yes_or_no("Again?"):

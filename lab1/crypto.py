@@ -12,13 +12,17 @@ from constants import SHIFT_BY
 shiftBy = SHIFT_BY
 
 
-# This function checks if the given character is between A-Z or a-z (ascii table)
 def check_letter(character):
+    """
+    Checks if the given character is between A-Z or a-z (ascii table)
+    """
     return (64 < ord(character) < 91) or (96 < ord(character) < 123)
 
 
-# Caesar Cipher
 def encrypt_caesar(plaintext):
+    """
+    Encrypts plain text using the Caesar cipher
+    """
     cipher = ""
     for character in plaintext:
         if check_letter(character):
@@ -27,8 +31,10 @@ def encrypt_caesar(plaintext):
     return cipher
 
 
-# Decrypts Caesar cypher
 def decrypt_caesar(ciphertext):
+    """
+    Decrypts the cipher text that was encrypted using the Caesar cipher
+    """
     plainText = ""
     for character in ciphertext:
         if check_letter(character):
@@ -37,8 +43,10 @@ def decrypt_caesar(ciphertext):
     return plainText
 
 
-# Vigenere Cipher
 def encrypt_vigenere(plaintext, keyword):
+    """
+    Encrypts the plain text with the given keyword
+    """
     cipher = ""
     for i in range(len(plaintext)):
         character = plaintext[i]
@@ -48,8 +56,10 @@ def encrypt_vigenere(plaintext, keyword):
     return cipher
 
 
-# Decrypts Vigenere Cipher
 def decrypt_vigenere(ciphertext, keyword):
+    """
+        Decrypts the cipher text with the given keyword
+    """
     plainText = ""
     for i in range(len(ciphertext)):
         character = ciphertext[i]
@@ -59,8 +69,10 @@ def decrypt_vigenere(ciphertext, keyword):
     return plainText
 
 
-# Scytale cipher
 def encrypt_scytale(plainText, scytale_circumference):
+    """
+    Encrypts plain text with the given circumference
+    """
     cipher = ""
     plainText = list(plainText)
     for i in range(0, int(scytale_circumference)):
@@ -71,8 +83,10 @@ def encrypt_scytale(plainText, scytale_circumference):
     return cipher
 
 
-# Decrypts Scytale
 def decrypt_scytale(cipherText, scytale_circumference):
+    """
+    Decrypts cipher that was encrypted with the Scytale cipher
+    """
     plainText = ""
     cipherText = list(cipherText)
     for i in range(0, int(scytale_circumference) - 1):
@@ -83,8 +97,10 @@ def decrypt_scytale(cipherText, scytale_circumference):
     return plainText
 
 
-# Railfence cypher
 def encrypt_railfence(plainText):
+    """
+    Encrypts plain text using the Railfence cipher
+    """
     cipher = ""
     plainText = list(plainText)
     dist = 4
@@ -100,8 +116,10 @@ def encrypt_railfence(plainText):
     return cipher
 
 
-# This function collects the characters on all 3 lines
 def collect_line_members(cipherText, a, b, c):
+    """
+    Collects the characters on all 3 lines
+    """
     if (len(cipherText) - 1) % 4 == 0:
         offset = 1
     else:
@@ -115,8 +133,10 @@ def collect_line_members(cipherText, a, b, c):
             c.append(cipherText[i])
 
 
-# This function decrypts a cipher encrypted using a railfence cipher
 def decrypt_railfence(cipherText):
+    """
+    Decrypts a cipher encrypted using a railfence cipher
+    """
     plainText = ""
     a = []; b = []; c = []
     x = 0; y = 0; z = 0

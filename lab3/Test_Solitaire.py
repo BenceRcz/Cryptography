@@ -6,7 +6,7 @@ from lab2.encryptors import solitaire
 from lab2.byte_array_encryption import (convert_bin_to_string, convert_to_binary, encrypt, decrypt, generate_key)
 
 
-# This class implements a test class for Solitaire cryptosystem
+# This class implements a unit test for Solitaire cryptosystem
 class TestSolitaire(unittest.TestCase):
     # Tests solitaire using a random string of length 3
     def test_Solitaire_3(self):
