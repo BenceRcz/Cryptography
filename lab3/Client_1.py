@@ -12,8 +12,10 @@ privateKey = []
 publicKey = []
 
 
-# This function prints the commands available for the KeyServer
 def print_usage():
+    """
+    Prints commands available for the user
+    """
     print('------------------KEYSERVER COMMANDS------------------')
     print('--           Help: prints usage again               --')
     print('--           Exit: Stops the app                    --')
@@ -27,8 +29,10 @@ def print_usage():
     return
 
 
-# This function handles the communication with the KeyServer
 def communicate_with_server(serverSocket, clientId):
+    """
+    Handles the communication with the KeyServer
+    """
     global publicKey
     global privateKey
     waitForResp = False
@@ -80,8 +84,10 @@ def communicate_with_server(serverSocket, clientId):
     return
 
 
-# This function handles the registration of the client into the KeyServer
 def register_to_server(serverSocket, clientId):
+    """
+    Handles the registration of the client into the KeyServer
+    """
     global publicKey
     print('         - Connected with key server')
     isLoggedIn = False

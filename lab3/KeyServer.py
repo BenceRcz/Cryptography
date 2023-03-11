@@ -13,8 +13,10 @@ loggedInClients = {}
 clientSockets = {}
 
 
-# This function handles a registered clientSocket
 def handle_registered_client(clientSocket, clientId, clientKey):
+    """
+    Handles a registered clientSocket
+    """
     isLoggedOut = False
 
     if clientId not in loggedInClients:
@@ -57,13 +59,17 @@ def handle_registered_client(clientSocket, clientId, clientKey):
     return
 
 
-# This function checks if the received messageToBeEncrypted is a valid Id
 def msgIsValidId(receivedId):
+    """
+    Checks if the received messageToBeEncrypted is a valid Id
+    """
     return receivedId.isdigit() and receivedId not in loggedInClients
 
 
-# This function handles a new joiner clientSocket to the server
 def new_joiner(clientSocket):
+    """
+    Handles a new joiner clientSocket to the server
+    """
     returnMsg = ''
     key = ''
     receivedId = 0
@@ -95,8 +101,8 @@ def new_joiner(clientSocket):
     return
 
 
-# This is the main function
 def main():
+    """Main function"""
     serverSocket = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
     serverSocket.bind(('', constants.KEYSERVER_PORT))
     serverSocket.listen(1)

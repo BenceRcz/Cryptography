@@ -10,6 +10,9 @@ from lab1 import utils
 
 
 def generate_private_key(n=8):          # By default, we create 8 bit long chunks
+    """
+    Generates private key
+    """
     w = [0 for i in range(n)]
     w[0] = randint(2, 10)
     total = w[0]
@@ -27,8 +30,10 @@ def generate_private_key(n=8):          # By default, we create 8 bit long chunk
     return w, q, r
 
 
-# This function creates a public key using the given privateKey
 def create_public_key(privateKey):
+    """
+    Creates a public key using the given privateKey
+    """
     w, q, r = privateKey
     n = len(w)
 
@@ -40,8 +45,10 @@ def create_public_key(privateKey):
     return beta
 
 
-# This function implements the encryption of a given messageToBeEncrypted using the given publicKey
 def encrypt_mh(messageToBeEncrypted, publicKey):
+    """
+    Encryption of a given messageToBeEncrypted using the given publicKey
+    """
     convertedChar = []
     cipher = []
 
@@ -58,8 +65,10 @@ def encrypt_mh(messageToBeEncrypted, publicKey):
     return cipher
 
 
-# This function implements the decryption of a cipher which was encrypted using the publicKey
 def decrypt_mh(messageToBeEncrypted, privateKey):
+    """
+    decryption of a cipher which was encrypted using the publicKey
+    """
     decryptedBytes = []
     decryptedText = ""
     c_ = []
