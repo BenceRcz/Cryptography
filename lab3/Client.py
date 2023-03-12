@@ -43,25 +43,26 @@ def communicate_with_server(serverSocket, clientId):
 
     while True:
         userInput = input('Waiting for command ')
-        if userInput == 'Exit':
+        userInput = userInput.upper()
+        if userInput == 'EXIT':
             break
-        elif userInput == 'Help':
+        elif userInput == 'HELP':
             print_usage()
-        elif userInput == 'ViewID':
+        elif userInput == 'VIEWID':
             print('          - Your Id is: ' + str(clientId))
-        elif userInput == 'ViewKey':
+        elif userInput == 'VIEWKEY':
             print('          - Your Key is: ' + ','.join(str(v) for v in publicKey))
-        elif userInput == 'ChangeKey':
+        elif userInput == 'CHANGEKEY':
             privateKey = generate_private_key(8)
             publicKey = create_public_key(privateKey)
             msg = str(clientId) + '<receivedNewKey>' + ','.join(str(v) for v in publicKey)
-        elif userInput == 'Logout':
+        elif userInput == 'LOGOUT':
             msg = 'LOGOUT'
-        elif userInput == 'LoggedIn':
+        elif userInput == 'LOGGEDIN':
             msg = 'GETCLIENTS'
             waitForResp = True
             isKey = True
-        elif userInput == 'Send':
+        elif userInput == 'SEND':
             msgTo = input('Add the user id of the person you want to send a message to: ')
             messageToUser = input('Please add your message: ')
             waitForResp = True

@@ -1,6 +1,5 @@
 # This module contains functions for the Merkle-Hellman Knapsack Cryptosystem
 
-# import lab1.utils as utils
 from random import randint
 import math
 
@@ -13,7 +12,7 @@ def generate_private_key(n=8):          # By default, we create 8 bit long chunk
     """
     Generates private key
     """
-    w = [0 for i in range(n)]
+    w = [0 for _ in range(n)]
     w[0] = randint(2, 10)
     total = w[0]
 
@@ -37,7 +36,7 @@ def create_public_key(privateKey):
     w, q, r = privateKey
     n = len(w)
 
-    beta = [0 for i in range(n)]
+    beta = [0 for _ in range(n)]
 
     for i in range(n):
         beta[i] = (r * w[i]) % q
