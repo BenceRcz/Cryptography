@@ -2,6 +2,7 @@
 
 
 import constants
+import logging as logger
 import socket as soc
 from MerkleHellman import *
 # from MerkleHellman import (generate_private_key, create_public_key, encrypt_mh, decrypt_mh)
@@ -90,39 +91,56 @@ def register_to_server(serverSocket, clientId):
     Handles the registration of the client into the KeyServer
     """
     global publicKey
-    print('         - Connected with key server')
+    logger.info('         - Connected with key server')
     isLoggedIn = False
     msg = ''
     receivedMsg = ''
     
     while not isLoggedIn:
         msg = str(clientId) + '<receivedId>' + ','.join(str(v) for v in publicKey)
-        print('         - Sending messageToBeEncrypted: ' + msg)
+        logger.info('         - Sending messageToBeEncrypted: ' + msg)
         serverSocket.send(msg.encode('ascii'))
         receivedMsg = serverSocket.recv(2048).decode()
         if receivedMsg == 'OK':
             isLoggedIn = True
-        else:
+        elif receivedMsg == "REJECTED":
             clientId = clientId + 1
+        else:
+            logger.error("SERVER ERROR! could not log in")
 
-    print('         - Successfully registered with following Id: ' + str(clientId))
+    logger.info('         - Successfully registered with following Id: ' + str(clientId))
 
     communicate_with_server(serverSocket, clientId)
 
     return
 
 
-def main():
+def generate_keys():
+    """
+    Generate private and public key for the client
+    """
     global privateKey
     global publicKey
     privateKey = generate_private_key(8)
     publicKey = create_public_key(privateKey)
 
-    clientId = constants.INITIAL_CLIENT_ID
+    return
 
+
+def init_client():
+    """
+    Initialize client id, connect to server and generate client keys
+    """
+    generate_keys()
+    clientId = constants.INITIAL_CLIENT_ID
     serverSocket = soc.socket(soc.AF_INET, soc.SOCK_STREAM)
     serverSocket.connect(('localhost', constants.KEYSERVER_PORT))
 
+    return clientId, serverSocket
+
+
+def main():
+    serverSocket, clientId = init_client()
     register_to_server(serverSocket, clientId)
 
     return

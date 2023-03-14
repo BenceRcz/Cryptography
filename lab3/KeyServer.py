@@ -114,8 +114,6 @@ def main():
         clientSocket, address = serverSocket.accept()
         th.Thread(target=new_joiner, args=(clientSocket,)).start()
 
-    return
-
 
 if __name__ == "__main__":
     main()
