@@ -1,4 +1,4 @@
-# This .py file implements client_1
+# This .py file implements the client side
 
 
 import constants

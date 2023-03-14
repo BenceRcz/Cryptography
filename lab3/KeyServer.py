@@ -1,5 +1,6 @@
 # This .py file implements a keyserver
 
+import logging as logger
 import socket as soc
 import threading as th
 import constants
@@ -25,34 +26,26 @@ def handle_registered_client(clientSocket, clientId, clientKey):
     while not isLoggedOut:
         msg = clientSocket.recv(2048).decode()
         if msg == 'LOGOUT':
-            print('           - Client with id: ' + clientId + ' has logged out')
+            logger.info('           - Client with id: ' + clientId + ' has logged out')
             isLoggedOut = True
             loggedInClients.pop(clientId, None)
         elif msg == 'GETCLIENTS':
-            print('           - Client with id requested logged in clients list: ' + clientId)
+            logger.info('           - Client with id requested logged in clients list: ' + clientId)
             returnMsg = ' '.join(loggedInClients.keys())
             clientSocket.send(returnMsg.encode('ascii'))
-            print('           - Ids sent')
+            logger.info('           - Ids sent')
         elif '<receivedNewKey>' in msg:  # when a client wants a new public key send a message in the following
             # format clientsID<receivedNewKey>newKey
-            print('           - Server received new key from clientSocket with Id: ' + clientId)
+            logger.info('           - Server received new key from clientSocket with Id: ' + clientId)
             msg = msg.split('<receivedNewKey>')
             clientKey = msg[0]
             loggedInClients[clientId] = clientKey
-            print('           - New key from clientSocket with Id: ' + clientId + ' = ' + clientKey)
+            logger.info('           - New key from clientSocket with Id: ' + clientId + ' = ' + clientKey)
         elif '<sendMessageWithLength>' in msg:
-            msg = msg.split('<sendMessageWithLength>')
-            keyReqFrom = msg[0]
-            messageLen = msg[1]
-            print('           - Client with id: ' + clientId + ' has requested public key of: ' + str(keyReqFrom))
-            if keyReqFrom in loggedInClients.keys():
-                print('           - Request accepted user exists')
-                # TODO ENCRYPT KEY
-                generatedKey = generate_key_with_data_len_give(messageLen, solitaire)
-                returnMsg = str(generatedKey)
-            else:
-                returnMsg = 'Requested Id not logged in'
-                print('           - Request denied user is not logged in')
+            pass
+        else:
+            returnMsg = 'Requested Id not logged in'
+            print('           - Request denied user is not logged in')
 
             clientSocket.send(returnMsg.encode('ascii'))
 
@@ -93,7 +86,7 @@ def new_joiner(clientSocket):
 
         clientSocket.send(returnMsg.encode('ascii'))
 
-    print('           - Server connected with new clientSocket: Id = ' + receivedId)
+    logger.info('           - Server connected with new clientSocket: Id = ' + receivedId)
 
     clientSockets[receivedId] = clientSocket
     handle_registered_client(clientSocket, receivedId, key)
@@ -107,8 +100,8 @@ def main():
     serverSocket.bind(('', constants.KEYSERVER_PORT))
     serverSocket.listen(1)
 
-    print('--------------------------HELLO--------------------------')
-    print('------------------The server is running------------------')
+    logger.info('--------------------------HELLO--------------------------')
+    logger.info('------------------The server is running------------------')
 
     while True:
         clientSocket, address = serverSocket.accept()
