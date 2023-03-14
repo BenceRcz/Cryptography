@@ -110,8 +110,6 @@ def register_to_server(serverSocket, clientId):
 
     logger.info('         - Successfully registered with following Id: ' + str(clientId))
 
-    communicate_with_server(serverSocket, clientId)
-
     return
 
 
@@ -141,7 +139,9 @@ def init_client():
 
 def main():
     serverSocket, clientId = init_client()
+
     register_to_server(serverSocket, clientId)
+    communicate_with_server(serverSocket, clientId)
 
     return
 
