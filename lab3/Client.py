@@ -4,8 +4,7 @@
 import constants
 import logging as logger
 import socket as soc
-from MerkleHellman import *
-# from MerkleHellman import (generate_private_key, create_public_key, encrypt_mh, decrypt_mh)
+from MerkleHellman import (generate_private_key, create_public_key)
 
 
 # Client1s private key
@@ -93,8 +92,6 @@ def register_to_server(serverSocket, clientId):
     global publicKey
     logger.info('         - Connected with key server')
     isLoggedIn = False
-    msg = ''
-    receivedMsg = ''
     
     while not isLoggedIn:
         msg = str(clientId) + '<receivedId>' + ','.join(str(v) for v in publicKey)
