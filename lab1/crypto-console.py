@@ -4,8 +4,6 @@ File: crypto-byte_array_encryption.py
 -----------------------
 Implements a console menu to interact with the cryptography functions exported
 by the crypto module.
-
-If you are a student, you shouldn't need to change anything in this file.
 """
 
 from crypto import (encrypt_caesar, decrypt_caesar,
@@ -13,7 +11,7 @@ from crypto import (encrypt_caesar, decrypt_caesar,
                     decrypt_scytale, encrypt_railfence, decrypt_railfence,
                     check_letter)
 
-from lab3.MerkleHellman import (generate_private_key, create_public_key, encrypt_mh, decrypt_mh)
+from utils import clear
 
 
 #############################
@@ -41,10 +39,13 @@ def get_filename():
 def get_input(binary=False):
     print("* Input *")
     choice = _get_selection("(F)ile or (S)tring? ", "FS")
+    clear()
     if choice == 'S':
         text = input("Enter a string: ").strip().upper()
+        clear()
         while not text:
             text = input("Enter a string: ").strip().upper()
+            clear()
         if binary:
             return bytes(text, encoding='utf8')
         return text
@@ -76,6 +77,7 @@ def _get_selection(prompt, options):
     choice = input(prompt).upper()
     while not choice or choice[0] not in options:
         choice = input("Please enter one of {}. {}".format('/'.join(options), prompt)).upper()
+    clear()
     return choice[0]
 
 
@@ -92,6 +94,8 @@ def get_yes_or_no(prompt, reprompt=None):
     choice = input("{} (Y/N) ".format(prompt)).upper()
     while not choice or choice[0] not in ['Y', 'N']:
         choice = input("Please enter either 'Y' or 'N'. {} (Y/N)? ".format(reprompt)).upper()
+
+    clear()
     return choice[0] == 'Y'
 
 
@@ -213,10 +217,10 @@ def run_suite():
     # This isn't the cleanest way to implement functional control flow,
     # but I thought it was too cool to not sneak in here!
     commands = {
-        'C': run_caesar,         # Caesar Cipher
-        'V': run_vigenere,       # Vigenere Cipher
-        'S': run_scytale,        # Scytale Cipher
-        'R': run_railfence      # Railfence
+        'C': run_caesar,  # Caesar Cipher
+        'V': run_vigenere,  # Vigenere Cipher
+        'S': run_scytale,  # Scytale Cipher
+        'R': run_railfence  # Railfence
     }
     commands[tool]()
 

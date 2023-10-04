@@ -5,6 +5,7 @@ Mathematical utilities for CS41's Assignment 1: Cryptography.
 import fractions as _fractions
 import string
 import random
+from os import system, name
 
 
 class Error(Exception):
@@ -76,3 +77,8 @@ def get_random_string(length):
     letters = string.ascii_lowercase
     res = ''.join(random.choice(letters) for i in range(length))
     return res
+
+
+def clear():
+    """Clears the console"""
+    return system('cls' if name == 'nt' else 'clear')
