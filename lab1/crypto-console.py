@@ -115,13 +115,14 @@ def clean_vigenere(text):
     Returns error if the user has provided an invalid input
     Returns without error if input was valid (or it could be modified)
     """
+
     if not check_length(text):
-        print("The messageToBeEncrypted has to have a length greater then 0")
-        exit(0)
+        raise
+
     for x in text:
         if not check_letter(x):
-            print("The messageToBeEncrypted and the keyword can only contain letters!")
-            exit(0)
+            raise
+
     return ''.join(ch for ch in text.upper() if ch.isupper())
 
 
